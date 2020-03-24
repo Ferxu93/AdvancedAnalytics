@@ -7,3 +7,4 @@ def even_or_odd(num): # status :: ok
     else:
         print('This number is odd')
 
+# we are connected (test status pending :: ...)
