@@ -39,4 +39,13 @@ print('++++++++++++++++++++++++++++++++++++++++++++\n\n')
 print(raw_data.count('Iglesias'))
 
 fake_title = complete2_news_title
-print(fake_title.replace('España', 'Reino Unido'))ng
+print(fake_title.replace('España', 'Reino Unido'))
+
+# String formatting:
+year = 2022
+month = 'march'
+day = 26
+print('This is my sentence\n')
+print('Today is {} of {} from the year {}'.format(day, month, year)) # fill the gaps :: method 1
+print('Today is {1} of {0} from the year {2}'.format(month, day, year)) # fill the gaps :: method 2
+print(f'Today is {day} of {month} from the year {year}') # fill the gaps :: method 3 (using f' ... ')
