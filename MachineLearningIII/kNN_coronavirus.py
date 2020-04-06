@@ -5,7 +5,9 @@ import seaborn as sns
 
 from sklearn.model_selection import train_test_split # scikit-learn
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
+from sklearn import metrics
 
 desired_width = 320
 pd.set_option('display.width', desired_width)
@@ -58,9 +60,25 @@ logreg_activation = 1
 if logreg_activation == 1:
     logreg = LogisticRegression() # Instantiate
     logreg.fit(X_train, y_train)
-    y_pred = logreg.predict(X_test)# 5
-    print('\nThe predicted (box 5): ', y_pred)
+    y_pred_logreg = logreg.predict(X_test)# 5
+    print('\nThe predicted (box 5): ', y_pred_logreg)
+
+knn_activation = 1
+if knn_activation == 1:
+    knn = KNeighborsClassifier(n_neighbors=2, n_jobs=1) # n_jobs :: if using spark, modulate this parameter (rapids)
+    knn.fit(X_train, y_train)
+    y_pred_knn = knn.predict(X_test)
+    print('\n The predicted variable (1: its recover, 0: no recovers) is:', y_pred_knn)
 
 ''' Model evaluation '''
-Cnf_Matrix = confusion_matrix(y_test, y_pred)
-print('This is the raw Confusion Matrix:\n', Cnf_Matrix)
+kNN_Cnf_Matrix = confusion_matrix(y_test, y_pred_knn)
+print('kNN Confusion Matrix:\n', kNN_Cnf_Matrix)
+print('Accuracy: {:.2f}'.format(metrics.accuracy_score(y_test, y_pred_knn)))
+print('Precision: {:.2f}'.format(metrics.precision_score(y_test, y_pred_knn)))
+print('Recall: {:.2f}'.format(metrics.recall_score(y_test, y_pred_knn)))
+
+LogReg_Cnf_matrix = confusion_matrix(y_test, y_pred_logreg)
+print('LogReg Confusion Matrix:\n', kNN_Cnf_Matrix)
+print('Accuracy: {:.2f}'.format(metrics.accuracy_score(y_test, y_pred_logreg)))
+print('Precision: {:.2f}'.format(metrics.precision_score(y_test, y_pred_logreg)))
+print('Recall: {:.2f}'.format(metrics.recall_score(y_test, y_pred_logreg)))
