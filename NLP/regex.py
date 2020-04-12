@@ -16,8 +16,12 @@ print(raw_data)
 '''
 Metacharacters:
  => (1)
-+ => (1, inf)
-* => (0, inf)
++ => (1, inf) :: greedy matching
+* => (0, inf) :: greedy matching
+how to stop greed (called also non-greedy matching):
+      ? (begins with ?)
+. = anything => (1)
+      .+ => anything till the end
 
 Regex commands:
 \w => one letter (NOT WORD!!!) :: case INsensitive  
@@ -28,6 +32,9 @@ Regex commands:
 Operators:
 | => OR 
 [] => OR (within a range)
+
+Special characters (metacharacters) as normal text:
+\\, \+, \*, \.
 
 '''
 print('\n\n+++++++++++++++++++++++++++++ REGEX CASES +++++++++++++++++++++++++++++++++++++++++')
@@ -45,3 +52,12 @@ print(ministerioB)
 
 ministerioC = re.findall(r'[mM]inisterio', raw_data)
 print(ministerioC)
+
+# list of all url's (websites) within the raw data:
+urls = re.findall(r'(https*:.+?)">', raw_data)
+print(urls)
+print(len(urls))
+
+# extract all names with its first surname:
+names = re.findall(r'[A-Z]\w+\s[A-Z]\w+\s', raw_data)
+#print(names)
