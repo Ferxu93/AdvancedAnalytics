@@ -153,7 +153,7 @@ if model == 1:
     if Splitting_activation == 1:
 
         X = train_df # predictive variables
-        y = train_df['target'] # 1 malignante and 0 benignant
+        y = train_df['target'] # 1 malignant and 0 benignant
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=235)
 
@@ -167,7 +167,7 @@ if model == 1:
     print('Accuracy: {:.2f}'.format(metrics.accuracy_score(y_test, y_pred_svm_model)))
     print('Precision: {:.2f}'.format(metrics.precision_score(y_test, y_pred_svm_model)))
     print('Recall: {:.2f}'.format(metrics.recall_score(y_test, y_pred_svm_model)))
-    
+
     svm_model = svm.SVC(kernel='poly')
     svm_model.fit(X_train, y_train)
     y_pred_svm_model= svm_model.predict(X_test)
