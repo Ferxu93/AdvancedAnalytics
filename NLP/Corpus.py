@@ -11,6 +11,10 @@ nltk.download('stopwords')
 from nltk.stem import WordNetLemmatizer
 nltk.download('wordnet')
 from collections import Counter
+import time
+from gensim.corpora.dictionary import Dictionary
+
+start_time = time.time()
 
 
 desired_width = 320
@@ -98,8 +102,63 @@ def book_analytics(book, language):
       print('Top 10 sentences: ', pd.DataFrame(cnts.most_common(10)))
 
 
-quijote = book_analytics(raw_data, language='spanish')
-print(quijote)
+book_analytics_execute = 0
+if book_analytics_execute == 1:
+
+      quijote = book_analytics(raw_data, language='spanish')
+      print(quijote)
+
+'''
+Gensim
+================
+1. complex model in NLP (documents and word vectors)
+1.1. Word vectors : the distance between car and motorbike its closer than car and house. (Deep learning based 
+     methodology for mathematical calculus of multidimensional vectors) 
+1.2. LDA: Latent Dirichlet Allocation (statistic model for topic analysis and sematic distances)
+
+2. Collections: a list containing tuples as (id, freq) => if list is ['a', 'b'], tuple is ('a', 'b') 
+* RECALL => a tuple is an immutable structure (while a list could be modified, a tuple NEVER!)
+'''
+# step 1: tokenization, remove stop words and lemmatizer:
+sentences = [sentence for sentence in sent_tokenize(raw_data)]  # sentences here is a token
+words = [words for words in word_tokenize(str(sentences).lower()) if words.isalpha()]
+words_nsw = [nsw for nsw in words if nsw not in stopwords.words('spanish')]
+
+wnlemmatizer = WordNetLemmatizer()  # class instantiation
+words_nsw_lemm = [wnlemmatizer.lemmatize(w) for w in words_nsw]
+
+# step 2: we create a dictionary and a collection (BOW = Bag-Of-Words) and a corpus:
+dictionary = Dictionary([words_nsw_lemm]) # Instantiate
+toboso_id = dictionary.token2id.get('toboso')
+print('this is the id from a given word from the book (or any text): ', toboso_id)
+toboso = dictionary.get(10192)
+print(toboso)
+
+corpus = dictionary.doc2bow(words_nsw_lemm) # this is the collection (brutally connected with the dictionary)
+print(corpus)
+
+id714 = dictionary.get(714)
+print(id714)
+
+
+end_time = time.time()
+print('\nExecution time: {:.2f}s'.format(end_time - start_time))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
